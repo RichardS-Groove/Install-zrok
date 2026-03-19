@@ -1,65 +1,76 @@
-# 🚀 Zrok Installer for Windows
+# 🚀 Zrok Manager for Windows (v2.3)
 
-[![Powershell](https://img.shields.io/badge/PowerShell-5.1+-blue.svg?style=for-the-badge&logo=powershell)](https://microsoft.com/powershell)
+[![PowerShell](https://img.shields.io/badge/PowerShell-5.1+-blue.svg?style=for-the-badge&logo=powershell)](https://microsoft.com/powershell)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-lightgrey.svg?style=for-the-badge&logo=windows)](https://www.microsoft.com/windows)
-[![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![Zrok](https://img.shields.io/badge/Zrok-v1%20%7C%20v2-orange.svg?style=for-the-badge)](https://zrok.io)
 
-Un script de automatización potente y elegante para descargar, instalar y configurar **zrok** en sistemas Windows x64. Olvídate de configuraciones manuales de variables de entorno o extracciones tediosas.
+Un gestor robusto y profesional para automatizar la instalación, actualización y gestión de **zrok** (v1) y **zrok2** (v2) en entornos Windows, diseñado para ser resiliente incluso en redes corporativas restringidas.
 
 ---
 
 ## ✨ Características Principales
 
-*   **🔍 Detección Inteligente:** Verifica instalaciones previas y arquitecturas de sistema automáticamente.
-*   **🌐 Descarga Automatizada:** Obtiene la última versión directamente desde los releases oficiales de GitHub.
-*   **🛠️ Configuración de PATH:** Agrega `zrok` al PATH del usuario de forma persistente.
-*   **📦 Manejo de Dependencias:** Utiliza la herramienta nativa `tar` de Windows para extracciones limpias.
-*   **🧹 Auto-Limpieza:** Elimina archivos temporales después de una instalación exitosa.
+*   **🔄 Soporte v1 y v2 Dinámico:** Detecta e instala automáticamente la última versión desde GitHub, soportando plenamente **zrok2** (v2).
+*   **🌐 Gestión de Red Inteligente:** Capacidad de detectar bloqueos de red (como en empresas) y ofrecer alternativas de descarga.
+*   **📦 Instalación Offline:** Opción dedicada para instalar desde archivos locales si GitHub no es accesible.
+*   **🛡️ Arquitectura Segura:** Usa un **VBS Proxy** para ejecutar PowerShell de forma transparente y evitar falsos positivos de antivirus.
+*   **🔍 Diagnóstico del "Patch" (PATH):** Herramienta integrada para verificar la correcta integración de zrok en las variables de entorno de Windows.
+*   **🛠️ Consola Unificada:** Todo ocurre en una única ventana de comandos, sin aperturas externas molestas.
 
 ---
 
-## 🚀 Uso Rápido
+## 🚀 Guía de Opciones del Menú
 
-Para una instalación estándar con descarga automática, ejecuta el siguiente comando en una terminal de PowerShell:
+### `[1] INSTALAR`
+Descarga e instala la última versión disponible (v1 o v2) directamente desde GitHub. Configura automáticamente el directorio `C:\zrok` y las variables de entorno.
 
-```powershell
-powershell -ExecutionPolicy Bypass -File zrok.ps1
-```
+### `[2] ACTUALIZAR`
+Consulta la versión instalada localmente y la compara con la última release oficial. Si existe una actualización, realiza una migración segura preservando tu configuración.
+
+### `[0] OFFLINE (Instalación Manual)`
+**Diseñada para entornos con restricciones.** Si GitHub está bloqueado:
+1.  El script te indicará qué archivo descargar (`*windows*amd64*.tar.gz`).
+2.  Coloca el archivo en `C:\zrok` o en tu carpeta de `Descargas`.
+3.  Presiona esta opción y el sistema completará la instalación localmente.
+
+### `[3] DESINSTALAR`
+Realiza un borrado total y limpio:
+- Cierra procesos activos para evitar errores de "archivo en uso".
+- Elimina el directorio `C:\zrok`.
+- **Limpia el PATH** del usuario de forma permanente.
+
+### `[4] COMPROBAR (Estado)`
+Muestra un resumen rápido: versión instalada, ubicación del ejecutable y si existe alguna actualización pendiente en GitHub.
+
+### `[P] VERIFICAR PATH`
+Realiza un diagnóstico de 4 puntos del sistema:
+- Verifica la existencia de la carpeta de instalación.
+- Confirma la presencia del binario (`zrok` o `zrok2`).
+- Valida la variable de entorno **PATH** del usuario.
+- Verifica si la sesión actual reconoce el comando.
+
+### `[C] ABRIR CMD`
+Abre una nueva ventana de comandos (`cmd.exe`) ubicada en la carpeta del proyecto, lista para ejecutar comandos de zrok.
+
+---
+
+## 🛠️ Estructura del Proyecto
+
+1.  **`zrok-manager.bat`**: Interfaz visual y selector de opciones.
+2.  **`zrok-worker.vbs`**: Proxy ligero para una ejecución de PowerShell silenciosa y robusta.
+3.  **`zrok-worker.ps1`**: El motor principal que gestiona descargas, extracciones y lógica de sistema.
 
 > [!TIP]
-> Si deseas forzar una reinstalación aunque ya exista una versión válida, usa el flag `-Force`.
+> **Recordatorio:** Al instalar por primera vez, es necesario abrir una **NUEVA terminal** para que Windows reconozca los comandos `zrok` o `zrok2`.
 
 ---
 
-## ⚙️ Parámetros Avanzados
+## 👨‍💻 Créditos y Autoría
 
-El script soporta varios parámetros para personalizar la instalación:
-
-| Parámetro | Descripción | Valor por Defecto |
-| :--- | :--- | :--- |
-| `-InstallPath` | Ruta donde se instalará zrok. | `C:\zrok` |
-| `-Force` | Fuerza la reinstalación y sobreescritura. | `$false` |
-| `-TarFile` | Ruta a un archivo `.tar.gz` descargado manualmente. | `""` |
-
----
-
-## 🛠️ Solución de Problemas (Modo Offline)
-
-Si te encuentras en una red con restricciones que bloquean el acceso a GitHub:
-
-1.  Descarga manualmente el archivo `zrok_X.X.X_windows_amd64.tar.gz` desde los [Releases de zrok](https://github.com/openziti/zrok/releases/latest).
-2.  Coloca el archivo en la misma carpeta que el script o dentro de `C:\zrok`.
-3.  Vuelve a ejecutar el script; este detectará el archivo local y procederá con la instalación sin necesidad de internet.
-
----
-
-## 👨‍💻 Créditos
-
-Este script fue desarrollado con pasión y atención al detalle por:
+Rediseñado y optimizado para máxima robustez por:
 
 **Richard Campos - PMO**
 
 ---
 
-> [!IMPORTANT]
-> **Nota:** Después de la instalación, asegúrate de abrir una **nueva ventana de terminal** para que los cambios en el PATH surtan efecto y puedas empezar a usar `zrok` inmediatamente.
+*Desarrollado con ❤️ para la comunidad de zrok.*
