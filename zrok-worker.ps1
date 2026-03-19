@@ -135,16 +135,28 @@ function Install-Zrok { param($pattern, $exeName, $installPath, $label, $forceUp
         if ($tarPath) { ok ('Archivo local encontrado: ' + $tarPath) }
     }
     if (-not $tarPath) {
+        $dlFolder = Join-Path $env:USERPROFILE 'Downloads'
         ln ''
-        err 'No se pudo obtener el binario de forma automatica.'
+        err 'No se encontro el archivo descargado localmente.'
         ln ''
-        ln '  DESCARGA MANUAL:' 'Yellow'
-        ln '  https://github.com/openziti/zrok/releases' 'Cyan'
-        ln ('  Busca el archivo: ' + $pattern) 'White'
-        ln '  (Nota: zrok v2 esta en etiqueta "Pre-release")' 'Yellow'
-        ln ('  Coloca el .tar.gz en ' + $installPath + ' o en tu carpeta Descargas') 'White'
-        ln '  Luego vuelve a ejecutar esta opcion.' 'White'
+        ln '  === PASOS PARA INSTALAR OFFLINE ===' 'Yellow'
+        ln '  1. Descarga el archivo manualmente desde GitHub:' 'White'
+        ln '     https://github.com/openziti/zrok/releases' 'Cyan'
+        ln ('     -> Busca el archivo que termine en: ' + $pattern) 'DarkGray'
+        ln '     -> Nota: zrok2 (v2) suele estar bajo la etiqueta "Pre-release".' 'DarkGray'
         ln ''
+        ln '  2. Deja el archivo descargado en tu carpeta de DESCARGAS:' 'White'
+        ln ('     ' + $dlFolder) 'Cyan'
+        ln ''
+        ln '  3. Vuelve a ejecutar esta Opcion [0] en el menu.' 'White'
+        ln '     (El sistema detectara el archivo, lo descomprimira y lo movera a C:\zrok)' 'DarkGray'
+        ln ''
+        
+        # Intentar abrir la web y la carpeta para el usuario
+        try { 
+            Start-Process 'https://github.com/openziti/zrok/releases' -ErrorAction SilentlyContinue
+            Start-Process $dlFolder -ErrorAction SilentlyContinue 
+        } catch {}
         return
     }
     if (-not (Get-Command tar -ErrorAction SilentlyContinue)) { err 'tar no disponible. Requiere Windows 10 v1803+.'; return }

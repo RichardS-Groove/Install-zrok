@@ -28,10 +28,11 @@ Descarga e instala la última versión disponible (v1 o v2) directamente desde G
 Consulta la versión instalada localmente y la compara con la última release oficial. Si existe una actualización, realiza una migración segura preservando tu configuración.
 
 ### `[0] OFFLINE (Instalación Manual)`
-**Diseñada para entornos con restricciones.** Si GitHub está bloqueado:
-1.  El script te indicará qué archivo descargar (`*windows*amd64*.tar.gz`).
-2.  Coloca el archivo en `C:\zrok` o en tu carpeta de `Descargas`.
-3.  Presiona esta opción y el sistema completará la instalación localmente.
+**Diseñada para entornos con restricciones.** Si GitHub está bloqueado, el script automatiza el proceso:
+1.  **Apertura Automática:** Al no hallar el archivo, el script abrirá tu navegador en las releases de GitHub y también tu carpeta de `Descargas`.
+2.  **Descarga:** Baja el archivo `*windows*amd64*.tar.gz` (elige la etiqueta "Pre-release" para zrok v2).
+3.  **Ubicación:** Deja el archivo en tu carpeta de `Descargas`.
+4.  **Procesamiento:** Vuelve a elegir la opción `[0]` y el sistema detectará, extraerá y migrará todo a `C:\zrok` automáticamente.
 
 ### `[3] DESINSTALAR`
 Realiza un borrado total y limpio:
