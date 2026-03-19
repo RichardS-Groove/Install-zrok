@@ -378,6 +378,31 @@ function Verify-PathSetup {
     sep
 }
 
+function Repair-PathSetup {
+    sep
+    ln '  REPARACION INTEGRAL DEL PATH' 'Cyan'
+    sep
+    ln ''
+    
+    if (-not (Test-Path $INSTALL_V1)) {
+        err ('La carpeta ' + $INSTALL_V1 + ' no existe.')
+        warn 'Zrok no parece estar instalado. Usa la opcion [1] o [0] primero.'
+        ln ''
+        sep
+        return
+    }
+    
+    info 'Forzando la integracion de la variable PATH...'
+    Add-ToPath $INSTALL_V1
+    
+    ln ''
+    ok 'Proceso completado.'
+    warn 'Debes ABRIR UNA NUEVA TERMINAL para que los cambios surtan efecto.'
+    info 'Usa la opcion [P] para validar despues de reiniciar la consola.'
+    ln ''
+    sep
+}
+
 # --- Punto de Entrada ---
 switch ($Action) {
     '1' { Install-Zrok '*windows*amd64*.tar.gz' 'zrok.exe'  $INSTALL_V1 'zrok'          $false $false }
@@ -387,5 +412,6 @@ switch ($Action) {
     '3' { Uninstall-Zrok $INSTALL_V1 'zrok' }
     '4' { Show-Status }
     'P' { Verify-PathSetup }
+    'R' { Repair-PathSetup }
     default { warn ('Accion desconocida: ' + $Action) }
 }

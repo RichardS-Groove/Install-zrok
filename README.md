@@ -50,6 +50,9 @@ Realiza un diagnóstico de 4 puntos del sistema:
 - Valida la variable de entorno **PATH** del usuario.
 - Verifica si la sesión actual reconoce el comando.
 
+### `[R] REPARAR PATH`
+**Herramienta de autorecuperación.** Si por accidente borraste tu variable de entorno o `zrok` dejó de ser reconocido, esta opción vuelve a inyectar la ruta `C:\zrok` de forma segura en el PATH de tu usuario sin afectar otras instalaciones.
+
 ### `[C] ABRIR CMD`
 Abre una nueva ventana de comandos (`cmd.exe`) ubicada en la carpeta del proyecto, lista para ejecutar comandos de zrok.
 

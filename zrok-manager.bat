@@ -39,6 +39,7 @@ echo  ^|   [0]  OFFLINE     instalar desde archivo local             ^|
 echo  ^|   [3]  DESINSTALAR zrok                                     ^|
 echo  ^|   [4]  COMPROBAR   estado del servicio                      ^|
 echo  ^|   [P]  VERIFICAR   PATH (el "patch" de sistema)             ^|
+echo  ^|   [R]  REPARAR     PATH (forzar variable de entorno)        ^|
 echo  ^|   [C]  ABRIR       CMD (Consola de comandos)                ^|
 echo  ^|   [5]  SALIR                                                ^|
 echo  ^|                                                              ^|
@@ -55,6 +56,7 @@ set /p "OPT=     Selecciona una opcion:  "
  if "!OPT!"=="3" goto DO_ACTION
  if "!OPT!"=="4" goto DO_ACTION
  if /i "!OPT!"=="P" goto DO_ACTION
+ if /i "!OPT!"=="R" goto DO_ACTION
  if /i "!OPT!"=="5" goto EXIT_NOW
  if /i "!OPT!"=="C" goto OPEN_CMD
  if /i "!OPT!"=="cmd" goto OPEN_CMD
